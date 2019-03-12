@@ -1,0 +1,5 @@
+Tutorial ---> https://www.youtube.com/watch?v=h2d9Wc3Hhi0&list=PLiyfvmtjWC_V_H-VMGGAZi7n5E0gyhc37
+
+Movimiento del jugador muy basico: 
+	-En el tutorial 1 y 2 hace un player controller basico con el componente RigidBody. Este no lo queremos porque tiene defectos en rampas y otro tipo de problemas
+	-El Script hecho es PlayerControllerWithRigidBody

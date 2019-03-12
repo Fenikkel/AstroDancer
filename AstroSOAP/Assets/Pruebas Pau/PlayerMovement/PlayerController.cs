@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     void Update() //60fps
     {
-        Debug.Log(m_PlayerController.isGrounded);
+        //Debug.Log(m_PlayerController.isGrounded);
 
         SetMovement(); //Configuramos el movimiento
 
