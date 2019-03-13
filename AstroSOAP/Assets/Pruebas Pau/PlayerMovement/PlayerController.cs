@@ -46,11 +46,26 @@ public class PlayerController : MonoBehaviour
     private void SetMovement()
     {
         //Coje indistintivamente el Input del teclado o el del mando
+
+        //Esto va siempre con el mismo eje de coordenadas y no va rotando (son como unos controles de un juego 2D)
+        /*
         float movHorizontal = Input.GetAxis(m_HorizontalAxis) * m_MoveSpeed; //GetAxis --> entre -1 y 1
         float movVertical = Input.GetAxis(m_VerticalAxis) * m_MoveSpeed;
-        
+
         m_MoveDirection = new Vector3(movHorizontal, m_MoveDirection.y, movVertical);
-        
+        */
+
+        //transform.right && transform.foward son dos vectores que estan apuntando hacia al lado o hacia delante segun las coordenadas de transform (en nuestro caso el jugador)
+
+        float yStore = m_MoveDirection.y; //guardamos la Y que tenemos
+        Vector3 movHorizontal = transform.right * Input.GetAxis(m_HorizontalAxis); 
+        Vector3 movVertical = transform.forward * Input.GetAxis(m_VerticalAxis);
+
+        m_MoveDirection = movHorizontal + movVertical;
+        m_MoveDirection = m_MoveDirection.normalized * m_MoveSpeed; //noramlizamos el vector para que si puslas dos teclas a la vez no vaya mas rapido el jugador. Osea, no tiene que ser un vector (1,1,0), ha de ser (0.75, 0.75, 0) o algo asi
+
+        m_MoveDirection.y = yStore; //ponemos la Y guardada que es la buena y no la que se ha generado con todo el pifostio de antes
+
     }
 
     private void Jump()
