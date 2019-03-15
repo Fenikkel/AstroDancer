@@ -9,6 +9,8 @@ public class EnemyFollowerIA : MonoBehaviour
 
     private NavMeshAgent m_navMeshAgent; //NAvMeshAgent del enemigo
     private Transform m_player; //Transform del player
+    public bool m_isFollowing = false;
+    public float m_DistanceEnemyPlayer; // Distancia en que empieza a segir al jugador
 
     public bool showPath;
     public LineRenderer line; //to hold the line Renderer
@@ -16,9 +18,11 @@ public class EnemyFollowerIA : MonoBehaviour
     [Header("Path")]
     public Transform m_Start_Path; // Inicio del camino
     public Transform m_End_Path; // Final del camino
+    public Vector3 m_Last_Point_Path; // Ultimo punto del camino antes de seguir al personaje
+    public float m_distance_Error; // Distancia para detectar si hay un error 
 
     public Transform m_Current_Destination; // Destino actual del enemigo
-    private float pathEndThreshold = 0.1f;
+    private float m_pathEndThreshold = 0.2f; // Distancia para detectar si ha llegado al final del camino
 
     // Start is called before the first frame update
 
@@ -29,6 +33,7 @@ public class EnemyFollowerIA : MonoBehaviour
         CheckPath();    // Compruebo si tiene Inicio y final, si no da error
         m_Current_Destination = m_End_Path; // Pone el camino actual el final del path
         m_navMeshAgent.SetDestination(m_Current_Destination.position);
+        CheckPath();
     }
     
 
@@ -37,13 +42,11 @@ public class EnemyFollowerIA : MonoBehaviour
         if (m_Start_Path == null)
         {
             m_Start_Path = transform;
-            Debug.LogError("Error 0.0: No ha sido posible encontrar el inicio del camino del enemigo " + this.name);
-            Application.Quit(); 
+            Debug.LogError("Error 0.0: No ha sido posible encontrar el inicio del camino del enemigo " + name);
         }
         if (m_End_Path == null)
         {
-            m_End_Path = transform;
-            Debug.LogError("ERROR 0.1: No ha sido posible encontrar el final del camino del enemigo " + this.name);
+            Debug.LogError("ERROR 0.1: No ha sido posible encontrar el final del camino del enemigo " + name);
             Application.Quit();
         }
     }
@@ -52,34 +55,86 @@ public class EnemyFollowerIA : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(m_navMeshAgent.hasPath);
+        CheckStalePath();
         CheckEndPath();
+        //CheckDistancePlayer();
+        DrawPath(m_navMeshAgent.path);
     }
 
-    private void CheckEndPath()
+    private void CheckStalePath()
     {
-        if (m_navMeshAgent.hasPath && m_navMeshAgent.remainingDistance <= m_navMeshAgent.stoppingDistance + pathEndThreshold )
-        {
-            Debug.Log("Ha Llegado a su objetvio y ha cambiado el objetivo que era: " + m_Current_Destination.position);
-            m_Current_Destination = (m_Current_Destination.position == m_Start_Path.position) ? m_End_Path : m_Start_Path;
-            m_navMeshAgent.SetDestination(m_Current_Destination.position);
-        }        
+        //Mira si esta atascado en algun sitio
+        if (m_navMeshAgent.isPathStale)
+            Debug.LogError("ERROR 1.0: El enemigo " + name + " esta atascado");
     }
 
     /*
-    private void DrawPath(NavMeshPath path) //Intentando que muestre el camino con una linea para debugeo pero aun no funciona
-    { 
+    private void CheckDistancePath()
+    {
+        // Mira si la distancia entre el final del camino generado por el navMeshAgent y el final que le hemos puesto supera un cierto error y no llega de verdad
+        if (Vector3.Distance(m_navMeshAgent.pathEndPosition, m_Current_Destination.position) > m_distance_Error)
+        {
+            Debug.LogError("Error 0.2: El final del camino del enemigo " + name + " esta a mas de " + m_distance_Error + " del final desigando");
+            m_navMeshAgent.isStopped = true;
+            Destroy(this);
+        }
+    }
+    */
+    private bool CheckEndPath()
+    {
+        if (m_navMeshAgent.hasPath && m_navMeshAgent.remainingDistance <= m_navMeshAgent.stoppingDistance + m_pathEndThreshold)
+        {
+            Debug.Log("El enemigo " + name + " ha llegado a su objetvio y ha cambiado el objetivo");
+            m_Current_Destination = (m_Current_Destination.position == m_Start_Path.position) ? m_End_Path : m_Start_Path;
+            m_navMeshAgent.SetDestination(m_Current_Destination.position);
+            return true;
+        }
+        return false;
+    }
+
+    private void CheckDistancePlayer()
+    {
+        if(Vector3.Distance(transform.position, m_player.transform.position) < m_DistanceEnemyPlayer)
+        {
+            if(!m_isFollowing)
+            {
+                m_isFollowing = true;
+                if(m_Last_Point_Path == Vector3.zero)
+                    m_Last_Point_Path = transform.position;
+            }
+            m_navMeshAgent.SetDestination(m_player.transform.position);
+        }
+        else if(m_isFollowing)
+        {
+            m_navMeshAgent.SetDestination(m_Last_Point_Path);
+            if(CheckEndPath())
+            {
+                m_isFollowing = false;
+                m_navMeshAgent.SetDestination(m_Current_Destination.position);
+                m_Last_Point_Path = Vector3.zero;
+            }
+        }
+        else
+        {
+            //CheckDistancePath();
+        }
+    }
+
+    
+    private void DrawPath(NavMeshPath path) //Muestre el camino con una linea
+    {
+
         if (path.corners.Length < 2) //if the path has 1 or no corners, there is no need
             return;
 
         //set the array of positions to the amount of corners
         line.positionCount = path.corners.Length;
 
-        for (var i = 1; i < path.corners.Length; i++)
+        for (var i = 0; i < path.corners.Length; i++)
         {
             Debug.Log(path.corners[i]);
             line.SetPosition(i, path.corners[i]); //go through each corner and set that to the line renderer's position
-        }
+        }       
     }
-    */
+    
 }
