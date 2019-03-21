@@ -9,8 +9,6 @@ public class EnemyFollowerIA : MonoBehaviour
 
     private NavMeshAgent m_navMeshAgent; //NAvMeshAgent del enemigo
     private Transform m_player; //Transform del player
-    public bool m_isFollowing = false;
-    public float m_DistanceEnemyPlayer; // Distancia en que empieza a segir al jugador
 
     public bool showPath;
     public LineRenderer line; //to hold the line Renderer
@@ -19,10 +17,12 @@ public class EnemyFollowerIA : MonoBehaviour
     public Transform m_Start_Path; // Inicio del camino
     public Transform m_End_Path; // Final del camino
     public Vector3 m_Last_Point_Path; // Ultimo punto del camino antes de seguir al personaje
-    public float m_distance_Error; // Distancia para detectar si hay un error 
-
     public Transform m_Current_Destination; // Destino actual del enemigo
-    private float m_pathEndThreshold = 0.2f; // Distancia para detectar si ha llegado al final del camino
+    [Header("Enemy Settings")]
+    public float m_distance_Error; // Distancia para detectar si hay un error
+    public float m_velocityBase;         // Velocidad base del enemigo
+    public float m_DistanceEnemyPlayer; // Distancia en que empieza a segir al jugador
+    public bool m_isFollowing = false;
 
     // Start is called before the first frame update
 
@@ -32,7 +32,7 @@ public class EnemyFollowerIA : MonoBehaviour
         m_player = GameObject.FindGameObjectWithTag("Player").transform;
         CheckPath();    // Compruebo si tiene Inicio y final, si no da error
         m_Current_Destination = m_End_Path; // Pone el camino actual el final del path
-        m_navMeshAgent.SetDestination(m_Current_Destination.position);
+        m_navMeshAgent.SetDestination(m_Current_Destination.position);        
         CheckPath();
     }
     
@@ -57,9 +57,11 @@ public class EnemyFollowerIA : MonoBehaviour
     {
         CheckStalePath();
         CheckEndPath();
-        //CheckDistancePlayer();
+        CheckDistancePlayer();
         DrawPath(m_navMeshAgent.path);
+        UpdateVelocity();
     }
+
 
     private void CheckStalePath()
     {
@@ -80,13 +82,17 @@ public class EnemyFollowerIA : MonoBehaviour
         }
     }
     */
-    private bool CheckEndPath()
+    private bool CheckEndPath() // Calcula si ha llegado al final del camino
     {
-        if (m_navMeshAgent.hasPath && m_navMeshAgent.remainingDistance <= m_navMeshAgent.stoppingDistance + m_pathEndThreshold)
+        if (m_navMeshAgent.hasPath && m_navMeshAgent.remainingDistance <= m_navMeshAgent.stoppingDistance)
         {
             Debug.Log("El enemigo " + name + " ha llegado a su objetvio y ha cambiado el objetivo");
-            m_Current_Destination = (m_Current_Destination.position == m_Start_Path.position) ? m_End_Path : m_Start_Path;
-            m_navMeshAgent.SetDestination(m_Current_Destination.position);
+
+            if (m_Last_Point_Path == Vector3.zero)
+            {
+                m_Current_Destination = (m_Current_Destination.position == m_Start_Path.position) ? m_End_Path : m_Start_Path;
+                m_navMeshAgent.SetDestination(m_Current_Destination.position);
+            }
             return true;
         }
         return false;
@@ -120,7 +126,24 @@ public class EnemyFollowerIA : MonoBehaviour
         }
     }
 
-    
+
+    private void UpdateVelocity() // Modifica la velocidad del enemigo segun la pendiente que este subiendo
+    {
+        if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit ray))
+        {
+            float angle = Vector3.Angle(Vector3.up, ray.normal);
+            if (angle == 0)
+            {
+                m_navMeshAgent.speed = m_velocityBase;
+                return;
+            }
+
+            float increment = (angle / 100) + 1;
+            m_navMeshAgent.speed = m_velocityBase * increment;
+        }       
+        
+    }
+
     private void DrawPath(NavMeshPath path) //Muestre el camino con una linea
     {
 
@@ -130,11 +153,9 @@ public class EnemyFollowerIA : MonoBehaviour
         //set the array of positions to the amount of corners
         line.positionCount = path.corners.Length;
 
-        for (var i = 0; i < path.corners.Length; i++)
-        {
-            Debug.Log(path.corners[i]);
+        for (var i = 0; i < path.corners.Length; i++)        
             line.SetPosition(i, path.corners[i]); //go through each corner and set that to the line renderer's position
-        }       
+             
     }
     
 }

@@ -97,15 +97,15 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
-    agentHeight: 2
+    agentRadius: 1
+    agentHeight: 1
     agentSlope: 30
     agentClimb: 0.3
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.33333334
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 1
@@ -519,15 +519,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2167df1620647ad43a48dd46c1f21b88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_isFollowing: 0
-  m_DistanceEnemyPlayer: 10
   showPath: 1
   line: {fileID: 453089815}
   m_Start_Path: {fileID: 1041920978}
   m_End_Path: {fileID: 2047166484}
   m_Last_Point_Path: {x: 0, y: 0, z: 0}
-  m_distance_Error: 1
   m_Current_Destination: {fileID: 0}
+  m_distance_Error: 1
+  m_velocityBase: 8
+  m_DistanceEnemyPlayer: 10
+  m_isFollowing: 0
 --- !u!54 &453089817
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -536,7 +537,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 453089813}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.5
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -555,10 +556,10 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 25
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -855,9 +856,9 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 658025261}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 65bc5d044f7808041a711728abc5688d, type: 2}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Convex: 1
   m_CookingOptions: 14
@@ -911,15 +912,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2167df1620647ad43a48dd46c1f21b88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_isFollowing: 0
-  m_DistanceEnemyPlayer: 10
   showPath: 1
   line: {fileID: 720021781}
   m_Start_Path: {fileID: 540251318}
   m_End_Path: {fileID: 175729538}
   m_Last_Point_Path: {x: 0, y: 0, z: 0}
-  m_distance_Error: 1
   m_Current_Destination: {fileID: 0}
+  m_distance_Error: 1
+  m_velocityBase: 8
+  m_DistanceEnemyPlayer: 10
+  m_isFollowing: 0
 --- !u!54 &720021776
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -928,7 +930,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 720021773}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.5
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -946,11 +948,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 5
-  m_Acceleration: 8
+  m_Speed: 8
+  m_Acceleration: 25
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.3
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -1359,15 +1361,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2167df1620647ad43a48dd46c1f21b88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_isFollowing: 0
-  m_DistanceEnemyPlayer: 10
   showPath: 1
   line: {fileID: 1069986579}
   m_Start_Path: {fileID: 1764860710}
   m_End_Path: {fileID: 248888143}
   m_Last_Point_Path: {x: 0, y: 0, z: 0}
-  m_distance_Error: 1
   m_Current_Destination: {fileID: 0}
+  m_distance_Error: 1
+  m_velocityBase: 8
+  m_DistanceEnemyPlayer: 10
+  m_isFollowing: 0
 --- !u!54 &1069986581
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1376,7 +1379,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1069986577}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.5
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -1395,10 +1398,10 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 25
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -1923,7 +1926,7 @@ GameObject:
   - component: {fileID: 1496466006}
   - component: {fileID: 1496466005}
   - component: {fileID: 1496466004}
-  - component: {fileID: 1496466003}
+  - component: {fileID: 1496466007}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -1931,20 +1934,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 40
   m_IsActive: 1
---- !u!136 &1496466003
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496466002}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!23 &1496466004
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2008,6 +1997,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &1496466007
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1496466002}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1498539361
 GameObject:
   m_ObjectHideFlags: 0
@@ -2540,15 +2543,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2167df1620647ad43a48dd46c1f21b88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_isFollowing: 0
-  m_DistanceEnemyPlayer: 10
   showPath: 1
   line: {fileID: 1999274426}
   m_Start_Path: {fileID: 1257705645}
   m_End_Path: {fileID: 1217415264}
   m_Last_Point_Path: {x: 0, y: 0, z: 0}
-  m_distance_Error: 1
   m_Current_Destination: {fileID: 0}
+  m_distance_Error: 1
+  m_velocityBase: 8
+  m_DistanceEnemyPlayer: 10
+  m_isFollowing: 0
 --- !u!54 &1999274428
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2576,10 +2580,10 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 5
-  m_Acceleration: 8
+  m_Acceleration: 25
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
