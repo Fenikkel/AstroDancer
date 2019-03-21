@@ -24,6 +24,9 @@ public class PlayerController : MonoBehaviour
     public float m_JumpForce = 15;
     public float m_GravityScale = 4; //Controlador de la gravedad
     public float m_RotateSpeed = 3;
+    public float m_KnockBackForce = 20;
+    public float m_KnockBackTime;
+    private float m_KnockBackCounter;
 
 
 
@@ -37,15 +40,24 @@ public class PlayerController : MonoBehaviour
     {
         //Debug.Log(m_PlayerController.isGrounded);
 
-        SetMovement(); //Configuramos el movimiento
-
-        if (m_PlayerController.isGrounded) //Si esta tocando el suelo
+        if (m_KnockBackCounter <= 0) //si estamos fuera del tiempo de knockback, podemos controlar el jugador
         {
-            m_MoveDirection.y = 0; //porque sino estamos aplicando la fuerza de la gravedad todo el rato y el cuerpo pesara un cojon
-            if (Input.GetButtonDown(m_JumpInput))
+
+            SetMovement(); //Configuramos el movimiento
+
+            if (m_PlayerController.isGrounded) //Si esta tocando el suelo
             {
-                Jump(); //Configuramos el salto
+                m_MoveDirection.y = 0f; //porque sino estamos aplicando la fuerza de la gravedad todo el rato y el cuerpo pesara un cojon
+                if (Input.GetButtonDown(m_JumpInput))
+                {
+                    Jump(); //Configuramos el salto
+                }
             }
+
+        }
+        else //sino ve descontando tiempo al tiempo del knockback
+        {
+            m_KnockBackCounter -= Time.deltaTime;
         }
         Move(); //El jugador se mueve con lo configurado
 
@@ -118,6 +130,17 @@ public class PlayerController : MonoBehaviour
     {
         m_PlayerAC.SetBool("isGrounded", m_PlayerController.isGrounded); //pone el valor booleano que comprueba si esta tocando suelo a la variable del animator
         m_PlayerAC.SetFloat("Speed", (Mathf.Abs(Input.GetAxis(m_VerticalAxis)) + Mathf.Abs(Input.GetAxis(m_HorizontalAxis)))); //miramos el valor absoluto de la velocidad que llevan los controles. Si la suma de los dos es mayor a 0.1, el animator controller hara la animacion de run
+    }
+
+
+    public void KnockBack(Vector3 direction)
+    {
+        m_KnockBackCounter = m_KnockBackTime;
+
+        //direction = new Vector3(1f, 1f, 1f); //for debug //hace de trampolin impulsor
+
+        m_MoveDirection = direction * m_KnockBackForce;
+        m_MoveDirection.y = m_KnockBackForce;
     }
 
 }
