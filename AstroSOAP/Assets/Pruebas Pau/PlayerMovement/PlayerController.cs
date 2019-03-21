@@ -5,6 +5,15 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [HideInInspector]
+    public CharacterController m_PlayerController; //fisicas que usara el jugador
+    [HideInInspector]
+    public Vector3 m_MoveDirection; //En que direccion se meneara el Jugador
+    public Animator m_PlayerAC; //Player Animator Controller
+    public Transform m_CameraPivot; //Si sabemos el pivot de la camara podemos hacer que el jugador mire hacia el
+    public GameObject m_PlayerModel; //referencia al modelo del personaje
+
+
     [Header("Inputs")]
     public string m_VerticalAxis = "Vertical";
     public string m_HorizontalAxis = "Horizontal";
@@ -14,10 +23,8 @@ public class PlayerController : MonoBehaviour
     public float m_MoveSpeed = 10;
     public float m_JumpForce = 15;
     public float m_GravityScale = 4; //Controlador de la gravedad
-    [HideInInspector]
-    public CharacterController m_PlayerController;
-    [HideInInspector]
-    public Vector3 m_MoveDirection; //En que direccion se meneara el Jugador
+    public float m_RotateSpeed = 3;
+
 
 
     void Start()
@@ -41,6 +48,24 @@ public class PlayerController : MonoBehaviour
             }
         }
         Move(); //El jugador se mueve con lo configurado
+
+
+        //Move the player in different directions based on camera look direction
+        if (Input.GetAxis(m_HorizontalAxis) !=0 || Input.GetAxis(m_VerticalAxis) !=0) //si nos meneamos de alguna forma
+        {
+            RotatePlayerModel();
+        }
+
+        SetAnimations(); //ponemos valores a las variables de las animaciones segun como este configurado el movimiento
+     }
+
+    private void RotatePlayerModel()
+    {
+        transform.rotation = Quaternion.Euler(0f, m_CameraPivot.rotation.eulerAngles.y, 0f);
+        Vector3 desiredPosition = new Vector3(m_MoveDirection.x, 0f, m_MoveDirection.z); //punto hacia donde quiere ir el jugador (Nada en la Y porque no queremos que mire hacia arriba)
+        Quaternion newRotation = Quaternion.LookRotation(desiredPosition); //lookrotation le das un punto en el espacio de unity y le dices que mire hacia ese 
+        m_PlayerModel.transform.rotation = Quaternion.Slerp(m_PlayerModel.transform.rotation, newRotation, m_RotateSpeed * Time.deltaTime); //Es una interpolacion pero de rotaciones //Rotamos el modelo del personaje (hijo del personaje) pero no el objeto personaje
+
     }
 
     private void SetMovement()
@@ -87,6 +112,12 @@ public class PlayerController : MonoBehaviour
         //Aplicamos el movimiento al jugador
         //HAY QUE HACER UNITARIO EL VECTOR PARA QUE SEA LA MISMA VELOCIDAD PARA TODAS LAS DIRECCIONES??
         m_PlayerController.Move(m_MoveDirection * Time.deltaTime); //Se mueve hacia donde indica el vector (Supongo que le estamos indicando cuantas unidades se ha de mover en esa direccion, no al punto donde debe ir)
+    }
+
+    private void SetAnimations() //ponemos los valores adecuados a las variables que deciden quue animacion se hara
+    {
+        m_PlayerAC.SetBool("isGrounded", m_PlayerController.isGrounded); //pone el valor booleano que comprueba si esta tocando suelo a la variable del animator
+        m_PlayerAC.SetFloat("Speed", (Mathf.Abs(Input.GetAxis(m_VerticalAxis)) + Mathf.Abs(Input.GetAxis(m_HorizontalAxis)))); //miramos el valor absoluto de la velocidad que llevan los controles. Si la suma de los dos es mayor a 0.1, el animator controller hara la animacion de run
     }
 
 }
