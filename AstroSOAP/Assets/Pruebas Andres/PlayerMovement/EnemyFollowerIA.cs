@@ -138,7 +138,7 @@ public class EnemyFollowerIA : MonoBehaviour
                 return;
             }
 
-            float increment = (angle / 100) + 1;
+            float increment = (angle / 80) + 1;
             m_navMeshAgent.speed = m_velocityBase * increment;
         }       
         
