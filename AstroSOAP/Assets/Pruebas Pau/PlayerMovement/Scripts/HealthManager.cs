@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class HealthManager : MonoBehaviour
 {
@@ -10,21 +12,37 @@ public class HealthManager : MonoBehaviour
     public float m_InvincibilityLength = 1f;
     private float m_InvincibilityCounter;
 
-    private PlayerController m_ThePlayer;
+    public PlayerController m_ThePlayer;
 
     public Renderer m_PlayerRenderer; //para poder hacer parpadear el jugador
 
     private float m_FlashCounter;
     public float m_FlashLength = 0.1f; //tiempo entre parpadeo
-   
+
+    private bool m_IsRespawning = false;
+    public Vector3 m_RespawnPoint;
+    public float m_RespawnLength = 2;
+
+    public GameObject m_DeathEffect;
+
+    public Image m_BlackScreen;
+    private bool m_IsFadeToBlack;
+    private bool m_IsFadeFromBlack;
+    public float m_FadeSpeed = 2f; //Para que vaya bien, fade speed tiene que ser mayor que wait for fade
+    public float m_WaitForFade = 1f;
+
+
     void Start()
     {
         m_CurrentHealth = m_MaxHealth;
 
-        m_ThePlayer = FindObjectOfType<PlayerController>();
+        //m_ThePlayer = FindObjectOfType<PlayerController>();
+
+        //m_RespawnPoint = m_ThePlayer.transform.position;
     }
     private void Update()
     {
+
         if (m_InvincibilityCounter > 0)
         {
             m_InvincibilityCounter -= Time.deltaTime;
@@ -41,6 +59,24 @@ public class HealthManager : MonoBehaviour
                 m_PlayerRenderer.enabled = true;
             }
         }
+
+        if (m_IsFadeToBlack)
+        {
+            m_BlackScreen.color = new Color(m_BlackScreen.color.r, m_BlackScreen.color.g, m_BlackScreen.color.b, Mathf.MoveTowards(m_BlackScreen.color.a, 1f, m_FadeSpeed * Time.deltaTime)); //con moive towards ira incrementando m_BlackScreen.color.a hasta 1f sin passarlo sumandole el valor de m_FadeSpeed * Time.deltaTime  (con delta time hacemos que se sume un poca cada frame)
+            if (m_BlackScreen.color.a == 1f)
+            {
+                m_IsFadeToBlack = false;
+            }
+        }
+
+        if (m_IsFadeFromBlack)
+        {
+            m_BlackScreen.color = new Color(m_BlackScreen.color.r, m_BlackScreen.color.g, m_BlackScreen.color.b, Mathf.MoveTowards(m_BlackScreen.color.a, 0f, m_FadeSpeed * Time.deltaTime)); //con moive towards ira incrementando m_BlackScreen.color.a hasta 1f sin passarlo sumandole el valor de m_FadeSpeed * Time.deltaTime  (con delta time hacemos que se sume un poca cada frame)
+            if (m_BlackScreen.color.a == 0f)
+            {
+                m_IsFadeFromBlack = false;
+            }
+        }
     }
 
     public void HurtPlayer(int damage, Vector3 knockBackDirection)
@@ -50,14 +86,21 @@ public class HealthManager : MonoBehaviour
 
             m_CurrentHealth -= damage;
 
-            m_ThePlayer.KnockBack(knockBackDirection);
+            if (m_CurrentHealth <= 0)
+            {
+                Respawn();
+                
+            }
+            else
+            {
+                m_ThePlayer.KnockBack(knockBackDirection);
 
-            m_InvincibilityCounter = m_InvincibilityLength;
+                m_InvincibilityCounter = m_InvincibilityLength;
 
-            m_PlayerRenderer.enabled = false;
+                m_PlayerRenderer.enabled = false;
 
-            m_FlashCounter = m_FlashLength;
-
+                m_FlashCounter = m_FlashLength;
+            }
         }
         /*if (m_CurrentHealth < 0) //para que no hago over kill y de problemas
         {
@@ -75,4 +118,50 @@ public class HealthManager : MonoBehaviour
         }
     }
 
+
+    public void Respawn()
+    {
+        if (!m_IsRespawning) //si no estamos respawneando
+        {
+            StartCoroutine("RespawnCo");
+        }
+    }
+
+    public IEnumerator RespawnCo() //respawn coroutine
+    {
+        m_IsRespawning = true; //mientras respawneamos restringimos el respawn para no hacerlo varias veces
+        m_ThePlayer.gameObject.SetActive(false);
+        GameObject rubish = Instantiate(m_DeathEffect, m_ThePlayer.transform.position, m_ThePlayer.transform.rotation);
+
+        yield return new WaitForSeconds(m_RespawnLength);
+
+        m_IsFadeToBlack = true;
+
+        yield return new WaitForSeconds(m_WaitForFade);
+
+        m_IsFadeToBlack = false; //Es de seguridad, por si el m_FadeSpeed es menor que m_WaitForFade
+        m_IsFadeFromBlack = true;
+        Destroy(rubish);
+
+        m_IsRespawning = false; //ya podemos volver a respawnear
+
+        m_ThePlayer.gameObject.SetActive(true);
+
+        //respawneamos el jugador
+        m_ThePlayer.transform.position = m_RespawnPoint;
+        //Debug.Log(m_RespawnPoint);
+        //Debug.Log("Player " + m_ThePlayer.transform.position);
+        m_CurrentHealth = m_MaxHealth;
+
+        //lo hacemos invencible
+        m_InvincibilityCounter = m_InvincibilityLength;
+        m_PlayerRenderer.enabled = false;
+        m_FlashCounter = m_FlashLength;
+    }
+
+
+    public void SetSpawnPoint(Vector3 newRespawnPosition)
+    {
+        m_RespawnPoint = newRespawnPosition;
+    }
 }
