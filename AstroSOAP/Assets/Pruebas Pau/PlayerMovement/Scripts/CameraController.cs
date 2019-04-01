@@ -5,12 +5,10 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public Transform m_CameraTarget;
-    public Vector3 m_Offset;
     public Transform m_CameraPivot; // con esto, podemos cambiar facilmente de seguir al jugador, a seguir otras cosas (hacer railes por eje`mplo)
 
-    public bool m_UseOffsetValues;
-
     public float m_RotateSpeed = 5;
+    public Vector3 m_Offset;
 
     [Range(1, 60)]
     public float m_MaxViewAngle = 45; //hasta donde podremos subir la camara
@@ -18,10 +16,12 @@ public class CameraController : MonoBehaviour
     public float m_MinViewAngle = -30; //hasta donde podremos bajar la camara (cuanto mas alto mas se acercara al jugador)
 
     public bool m_InvertY = false;
+    public bool m_UseOffsetValues = false;
+    public bool m_EnableCameraRotation = false;
 
     void Start()
     {
-        if (!m_UseOffsetValues) //si no queremos usar el offset sino donde este la camare en la escena...
+        if (!m_UseOffsetValues) //si no queremos usar el offset sino donde este la camare en la escena... 
         {
             m_Offset = m_CameraTarget.position - transform.position;
         }
@@ -41,6 +41,24 @@ public class CameraController : MonoBehaviour
 
         m_CameraPivot.transform.position = m_CameraTarget.transform.position; //la camara sigue al jugador (pero sin que el pivot sea el hijo del jugador, asi podemos configurar que la camara no rote cuando el jugador rota)
 
+        if (m_EnableCameraRotation)
+        {
+            MoveNRotateCamera();
+        }
+        else
+        {
+            MoveCamera();
+        }
+ 
+    }
+
+    private void MoveCamera()
+    {
+        transform.position = m_CameraTarget.position - m_Offset;
+    }
+
+    private void MoveNRotateCamera()
+    {
         //Get the X position of the mouse & rotate the Target 
         float horizontal = Input.GetAxis("Mouse X") * m_RotateSpeed;
         m_CameraPivot.Rotate(0, horizontal, 0);
@@ -61,7 +79,7 @@ public class CameraController : MonoBehaviour
         {
             m_CameraPivot.rotation = Quaternion.Euler(m_MaxViewAngle, 0, 0);
         }
-        
+
         if (m_CameraPivot.rotation.eulerAngles.x > 180 && m_CameraPivot.rotation.eulerAngles.x < 360f + m_MinViewAngle) //360 se posa per si min view te valors negatius
         {
             m_CameraPivot.rotation = Quaternion.Euler(360f + m_MinViewAngle, 0, 0);

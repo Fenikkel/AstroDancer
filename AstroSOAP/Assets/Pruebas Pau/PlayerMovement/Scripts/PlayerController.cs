@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public CharacterController m_PlayerController; //fisicas que usara el jugador
     [HideInInspector]
     public Vector3 m_MoveDirection; //En que direccion se meneara el Jugador
-    public Animator m_PlayerAC; //Player Animator Controller
+    public Animator m_PlayerAnimator; //Player Animator (que este contiene dentro Animation Controller)
     public Transform m_CameraPivot; //Si sabemos el pivot de la camara podemos hacer que el jugador mire hacia el
     public GameObject m_PlayerModel; //referencia al modelo del personaje
 
@@ -128,8 +128,8 @@ public class PlayerController : MonoBehaviour
 
     private void SetAnimations() //ponemos los valores adecuados a las variables que deciden quue animacion se hara
     {
-        m_PlayerAC.SetBool("isGrounded", m_PlayerController.isGrounded); //pone el valor booleano que comprueba si esta tocando suelo a la variable del animator
-        m_PlayerAC.SetFloat("Speed", (Mathf.Abs(Input.GetAxis(m_VerticalAxis)) + Mathf.Abs(Input.GetAxis(m_HorizontalAxis)))); //miramos el valor absoluto de la velocidad que llevan los controles. Si la suma de los dos es mayor a 0.1, el animator controller hara la animacion de run
+        m_PlayerAnimator.SetBool("isGrounded", m_PlayerController.isGrounded); //pone el valor booleano que comprueba si esta tocando suelo a la variable del animator
+        m_PlayerAnimator.SetFloat("Speed", (Mathf.Abs(Input.GetAxis(m_VerticalAxis)) + Mathf.Abs(Input.GetAxis(m_HorizontalAxis)))); //miramos el valor absoluto de la velocidad que llevan los controles. Si la suma de los dos es mayor a 0.1, el animator controller hara la animacion de run
     }
 
 
