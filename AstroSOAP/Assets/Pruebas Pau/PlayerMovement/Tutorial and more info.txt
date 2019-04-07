@@ -9,3 +9,10 @@ Movimiento del jugador avanzado:
 
 Movimiento de camara:
 	-Los limites los explica bien en el tutorial 7 (un rollo sobre como trabaja Unity con los grados y como tenemos que tratarlos (no Quaterniones, sino EulerAngles))
+
+
+
+
+
+
+	

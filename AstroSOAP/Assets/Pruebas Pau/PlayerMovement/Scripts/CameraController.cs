@@ -19,20 +19,40 @@ public class CameraController : MonoBehaviour
     public bool m_UseOffsetValues = false;
     public bool m_EnableCameraRotation = false;
 
+
+
     void Start()
     {
         if (!m_UseOffsetValues) //si no queremos usar el offset sino donde este la camare en la escena... 
         {
             m_Offset = m_CameraTarget.position - transform.position;
         }
-
-        m_CameraPivot.transform.position = m_CameraTarget.transform.position; //pivot coje la posicion del jugador
-        //m_CameraPivot.transform.parent = m_CameraTarget.transform; //pivot se hace hijo del jugador para poder seguirlo y que la camara gire cuando gire el jugador
+        else //con los offset no mola si rotas la camara, mejor modificarla tu pero que en X = 0!
+        {
+            m_EnableCameraRotation = false;
+        }
 
         //con esto sacamos al pivot de ser hijo de la camara
         m_CameraPivot.transform.parent = null; //hacemos esto asi para poder dejar inicialmente(antes de que se de al play) el pivot como hijo de la camara y asi poder hacer un prefab con casi todo configurado.
 
+        //m_CameraPivot.Rotate(Vector3.zero); //por si estaba rotada
+
+        if (!m_EnableCameraRotation) //si la camara no gira, hay que poner manualmente la rotacion en Y de la camara para que el jugador no vaya en direcciones que no toca
+        {
+            m_CameraPivot.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0); //asi tendra la misma direccion que la camara y si el jugador se menea en base al pivote se meneara correctamente
+        }
+        else
+        {
+            m_CameraPivot.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+
+        m_CameraPivot.transform.position = m_CameraTarget.transform.position; //pivot coje la posicion del jugador
+        //m_CameraPivot.transform.parent = m_CameraTarget.transform; //pivot se hace hijo del jugador para poder seguirlo y que la camara gire cuando gire el jugador
+
+
+
         Cursor.lockState = CursorLockMode.Locked; //esconde el cursor y lo bloquea al centro de la pantalla
+        print(transform.rotation.eulerAngles.y);
 
     }
 
@@ -41,20 +61,44 @@ public class CameraController : MonoBehaviour
 
         m_CameraPivot.transform.position = m_CameraTarget.transform.position; //la camara sigue al jugador (pero sin que el pivot sea el hijo del jugador, asi podemos configurar que la camara no rote cuando el jugador rota)
 
+        
+
         if (m_EnableCameraRotation)
         {
-            MoveNRotateCamera();
+            RotateCamera();
+            Debug.Log(transform.rotation.eulerAngles.y);
         }
         else
         {
             MoveCamera();
         }
- 
+
     }
 
     private void MoveCamera()
     {
         transform.position = m_CameraTarget.position - m_Offset;
+    }
+
+    private void RotateCamera()
+    {
+        Debug.Log(Input.GetAxis("Mouse X"));
+        //Get the X position of the mouse & rotate the Target  
+        float horizontal = (Input.GetAxis("Mouse X")) * m_RotateSpeed; //comienza siempre con 0)  
+        m_CameraPivot.Rotate(0, horizontal, 0);
+        
+
+        //Move the camera based on the current rotation of the target & the original offset
+        float desiredYAngle = m_CameraPivot.eulerAngles.y; //euler angles hace que el angulo del quaternion sea el que nosotros entendemos (Osea no tiene en cuenta la W)
+
+        Quaternion rotation = Quaternion.Euler(0, desiredYAngle, 0);
+        transform.position = m_CameraTarget.transform.position - (rotation * m_Offset); //Asi no funciona --> m_Offset * rotation  (Es al reves)
+        
+
+        
+        transform.LookAt(m_CameraTarget);
+
+        
     }
 
     private void MoveNRotateCamera()
@@ -75,15 +119,15 @@ public class CameraController : MonoBehaviour
             m_CameraPivot.Rotate(-vertical, 0, 0); //menos para el movimiento de la camara normal (la camara mira hacia donde va el raton?)
         }
 
-        if (m_CameraPivot.rotation.eulerAngles.x > m_MaxViewAngle && m_CameraPivot.rotation.eulerAngles.x < 180f) //Lo primero es para que la camera no pase de 45 grados y lo segundo es una movida chunga del editor pero tragate que eso hace que cuando bajes la camara no te pondra la camara a 45 grados (osea entrar en estre if)
-        {
-            m_CameraPivot.rotation = Quaternion.Euler(m_MaxViewAngle, 0, 0);
-        }
+         if (m_CameraPivot.rotation.eulerAngles.x > m_MaxViewAngle && m_CameraPivot.rotation.eulerAngles.x < 180f) //Lo primero es para que la camera no pase de 45 grados y lo segundo es una movida chunga del editor pero tragate que eso hace que cuando bajes la camara no te pondra la camara a 45 grados (osea entrar en estre if)
+         {
+             m_CameraPivot.rotation = Quaternion.Euler(m_MaxViewAngle, m_CameraPivot.rotation.eulerAngles.y, m_CameraPivot.rotation.eulerAngles.z);
+         }
 
-        if (m_CameraPivot.rotation.eulerAngles.x > 180 && m_CameraPivot.rotation.eulerAngles.x < 360f + m_MinViewAngle) //360 se posa per si min view te valors negatius
-        {
-            m_CameraPivot.rotation = Quaternion.Euler(360f + m_MinViewAngle, 0, 0);
-        }
+         if (m_CameraPivot.rotation.eulerAngles.x > 180 && m_CameraPivot.rotation.eulerAngles.x < 360f + m_MinViewAngle) //360 se posa per si min view te valors negatius
+         {
+             m_CameraPivot.rotation = Quaternion.Euler(360f + m_MinViewAngle, m_CameraPivot.rotation.eulerAngles.y, m_CameraPivot.rotation.eulerAngles.z);
+         }
 
 
         //Move the camera based on the current rotation of the target & the original offset
@@ -92,16 +136,16 @@ public class CameraController : MonoBehaviour
 
         //desiredXAngle --> nos sobra porque no queremos movimientos de camara verticales
         Quaternion rotation = Quaternion.Euler(desiredXAngle, desiredYAngle, 0);
-        transform.position = m_CameraTarget.position - (rotation * m_Offset); //Asi no funciona --> m_Offset * rotation  (Es al reves)
+        transform.position = m_CameraTarget.transform.position - (rotation * m_Offset); //Asi no funciona --> m_Offset * rotation  (Es al reves)
 
 
         //transform.position = m_CameraTarget.position - m_Offset; //esto es sin rotacion
 
         // si la camara va por debajo de donde esta andando el jugador
-        if (transform.position.y < m_CameraTarget.position.y + 0.1f) //el  +0.1f aqui y en la nueva posicion es para que en la camara orthografica no se oculte el terreno (y ademas en perspectiva le da un margen de seguridad)
+        if (transform.position.y < m_CameraTarget.transform.position.y + 0.1f) //el  +0.1f aqui y en la nueva posicion es para que en la camara orthografica no se oculte el terreno (y ademas en perspectiva le da un margen de seguridad)
         {
             //si la camara fuera perspectiva esto, envez de bajar por debajo del jugador, lo que hace es acercarse a el
-            transform.position = new Vector3(transform.position.x, m_CameraTarget.position.y + 0.1f, transform.position.z);
+            transform.position = new Vector3(transform.position.x, m_CameraTarget.transform.position.y + 0.1f, transform.position.z);
         }
         transform.LookAt(m_CameraTarget);
     }
