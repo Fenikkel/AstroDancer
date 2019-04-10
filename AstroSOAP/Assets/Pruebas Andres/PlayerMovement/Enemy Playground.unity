@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4431081, g: 0.4923162, b: 0.5720213, a: 1}
+  m_IndirectSpecularColor: {r: 0.44310844, g: 0.49231708, b: 0.572022, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -786,8 +786,8 @@ MonoBehaviour:
   m_Last_Point_Path: {x: 0, y: 0, z: 0}
   m_Current_Destination: {fileID: 0}
   m_distance_Error: 1
-  m_velocityBase: 8
-  m_DistanceEnemyPlayer: 10
+  m_velocityBase: 6
+  m_DistanceEnemyPlayer: 6
   m_isFollowing: 0
 --- !u!54 &586515087
 Rigidbody:
@@ -815,7 +815,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 40.59
-  m_Speed: 8
+  m_Speed: 6
   m_Acceleration: 25
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1053,8 +1053,8 @@ MonoBehaviour:
   m_Last_Point_Path: {x: 0, y: 0, z: 0}
   m_Current_Destination: {fileID: 0}
   m_distance_Error: 1
-  m_velocityBase: 8
-  m_DistanceEnemyPlayer: 10
+  m_velocityBase: 6
+  m_DistanceEnemyPlayer: 6
   m_isFollowing: 0
 --- !u!54 &720021776
 Rigidbody:
@@ -1082,7 +1082,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 40.59
-  m_Speed: 8
+  m_Speed: 6
   m_Acceleration: 25
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1425,8 +1425,8 @@ MonoBehaviour:
   m_Last_Point_Path: {x: 0, y: 0, z: 0}
   m_Current_Destination: {fileID: 0}
   m_distance_Error: 1
-  m_velocityBase: 8
-  m_DistanceEnemyPlayer: 10
+  m_velocityBase: 6
+  m_DistanceEnemyPlayer: 6
   m_isFollowing: 0
 --- !u!54 &745654927
 Rigidbody:
@@ -1454,7 +1454,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 40.59
-  m_Speed: 8
+  m_Speed: 6
   m_Acceleration: 25
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -2018,8 +2018,8 @@ MonoBehaviour:
   m_Last_Point_Path: {x: 0, y: 0, z: 0}
   m_Current_Destination: {fileID: 0}
   m_distance_Error: 1
-  m_velocityBase: 8
-  m_DistanceEnemyPlayer: 10
+  m_velocityBase: 6
+  m_DistanceEnemyPlayer: 6
   m_isFollowing: 0
 --- !u!54 &1411290937
 Rigidbody:
@@ -2047,7 +2047,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 40.59
-  m_Speed: 8
+  m_Speed: 6
   m_Acceleration: 25
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -2267,8 +2267,8 @@ MonoBehaviour:
   m_Last_Point_Path: {x: 0, y: 0, z: 0}
   m_Current_Destination: {fileID: 0}
   m_distance_Error: 1
-  m_velocityBase: 8
-  m_DistanceEnemyPlayer: 10
+  m_velocityBase: 6
+  m_DistanceEnemyPlayer: 6
   m_isFollowing: 0
 --- !u!54 &1426659607
 Rigidbody:
@@ -2296,7 +2296,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 40.59
-  m_Speed: 8
+  m_Speed: 6
   m_Acceleration: 25
   avoidancePriority: 50
   m_AngularSpeed: 120
