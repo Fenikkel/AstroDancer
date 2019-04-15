@@ -9,21 +9,22 @@ public class EnemyFlameIA : MonoBehaviour
 
     private NavMeshAgent m_navMeshAgent; //NAvMeshAgent del enemigo
 
-    public LineRenderer m_line; //to hold the line Renderer
+    private LineRenderer m_line;
     public Transform[] m_corners;
 
     private int m_index;
+    private object gizmos;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
+        m_index = 0;
         m_navMeshAgent = GetComponent<NavMeshAgent>();
         m_line = GetComponent<LineRenderer>();
         if (m_corners == null || m_corners.Length == 0)
             Debug.LogError("ERROR 0.1: m_corners no esta declarado o no tiene vertices");
-        DrawPath();
         startPath();
 
     }
@@ -35,14 +36,11 @@ public class EnemyFlameIA : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(m_navMeshAgent.hasPath && m_navMeshAgent.remainingDistance <= m_navMeshAgent.stoppingDistance);
+        drawPath(m_navMeshAgent.path);
         CheckStalePath();
         if (m_navMeshAgent.hasPath && m_navMeshAgent.remainingDistance <= m_navMeshAgent.stoppingDistance)
-        {
-            m_index++;
-            if (m_index == m_corners.Length)
-                m_index = 0;
-            m_navMeshAgent.SetDestination(m_corners[m_index].position);
-        }
+            nextCorner();
     }
 
     private void CheckStalePath()
@@ -52,18 +50,38 @@ public class EnemyFlameIA : MonoBehaviour
             Debug.LogError("ERROR 1.0: El enemigo " + name + " esta atascado");
     }
 
-    private void DrawPath() //Muestre el camino con una linea
+    private void nextCorner()
     {
+        Debug.Log("Esta en el corner numero " + m_index);
+        m_index++;
+        if (m_index == m_corners.Length)
+            m_index = 0;
+        m_navMeshAgent.SetDestination(m_corners[m_index].position);
+    }
 
+    private void OnDrawGizmos()
+    {
         if (m_corners.Length < 2) //if the path has 1 or no corners, there is no need
             return;
 
         //set the array of positions to the amount of corners
-        m_line.loop = true;
-        m_line.positionCount = m_corners.Length;
-
         for (var i = 0; i < m_corners.Length; i++)
-            m_line.SetPosition(i, m_corners[i].position); //go through each corner and set that to the line renderer's position
+        {
+            Gizmos.color = Color.blue;
+            if (i == m_corners.Length - 1)
+                Gizmos.DrawLine(m_corners[i].position, m_corners[0].position);
+            else
+                Gizmos.DrawLine(m_corners[i].position, m_corners[i + 1].position);
+        }
     }
 
+    private void drawPath(NavMeshPath path)
+    {
+        if (path.corners.Length < 2) //if the path has 1 or no corners, there is no need
+            return;
+
+        m_line.positionCount = path.corners.Length;
+        m_line.loop = true;
+        m_line.SetPositions(path.corners);
+    }
 }

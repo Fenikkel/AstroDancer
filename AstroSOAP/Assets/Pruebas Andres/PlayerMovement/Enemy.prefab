@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2891046861801730143}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.69, y: 6.037978, z: -2.73}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2891046863177937220}
@@ -57,7 +57,7 @@ Transform:
   m_GameObject: {fileID: 2891046862169370192}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -35.85, y: -5.78, z: 0.59}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 8.7495, y: 8.7495, z: 8.7495}
   m_Children:
   - {fileID: 2891046861801730140}
   - {fileID: 2891046863071563004}
@@ -88,7 +88,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2891046862543949427}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -23.48, y: 0, z: 0}
+  m_LocalPosition: {x: -0.18, y: 0, z: 15.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2891046861801730140}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 2891046863071562979}
   - component: {fileID: 2891046863071562978}
   - component: {fileID: 2891046863071563005}
-  - component: {fileID: 2891046863071562983}
+  - component: {fileID: 1215806939581628032}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -125,7 +125,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2891046863071563007}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.48, y: 6.65, z: -3.23}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.013283374, y: 0.012158074, z: 0.0124355}
   m_Children: []
   m_Father: {fileID: 2891046862169370193}
@@ -240,8 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2167df1620647ad43a48dd46c1f21b88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showPath: 1
-  line: {fileID: 2891046863071562983}
+  m_line: {fileID: 0}
   m_Start_Path: {fileID: 2891046863177937220}
   m_End_Path: {fileID: 2891046862543949424}
   m_Last_Point_Path: {x: 0, y: 0, z: 0}
@@ -250,7 +249,7 @@ MonoBehaviour:
   m_velocityBase: 6
   m_DistanceEnemyPlayer: 6
   m_isFollowing: 0
---- !u!120 &2891046863071562983
+--- !u!120 &1215806939581628032
 LineRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
