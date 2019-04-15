@@ -19,11 +19,6 @@ public class CheckPoint : MonoBehaviour
     }
 
 
-    void Update()
-    {
-        
-    }
-
     public void CheckPointOn()
     {
         //asi es menos efficiente creo
