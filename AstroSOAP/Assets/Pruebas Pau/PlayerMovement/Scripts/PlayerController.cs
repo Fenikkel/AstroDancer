@@ -9,9 +9,10 @@ public class PlayerController : MonoBehaviour
     public CharacterController m_PlayerController; //fisicas que usara el jugador
     [HideInInspector]
     public Vector3 m_MoveDirection; //En que direccion se meneara el Jugador
-    public Animator m_PlayerAnimator; //Player Animator (que este contiene dentro Animation Controller)
+    public Animator m_PlayerAnimator; //m_Player Animator (que este contiene dentro Animation Controller)
     public Transform m_CameraPivot; //Si sabemos el pivot de la camara podemos hacer que el jugador mire hacia el
     public GameObject m_PlayerModel; //referencia al modelo del personaje
+    private Vector3 m_ExternalForces;
 
 
     [Header("Inputs")]
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        m_ExternalForces = Vector3.zero;
         m_PlayerController = GetComponent<CharacterController>();
     }
 
@@ -39,6 +41,7 @@ public class PlayerController : MonoBehaviour
     void Update() //60fps
     {
         //Debug.Log(m_PlayerController.isGrounded);
+        
 
         if (m_KnockBackCounter <= 0) //si estamos fuera del tiempo de knockback, podemos controlar el jugador
         {
@@ -82,6 +85,10 @@ public class PlayerController : MonoBehaviour
 
     private void SetMovement()
     {
+        /*transform.position += m_ExternalForces;
+        m_ExternalForces = Vector3.zero; //ponemos a cero las fuerzas que ya se han aplicado
+        */
+
         //Coje indistintivamente el Input del teclado o el del mando
 
         //Esto va siempre con el mismo eje de coordenadas y no va rotando (son como unos controles de un juego 2D)
@@ -97,9 +104,15 @@ public class PlayerController : MonoBehaviour
         float yStore = m_MoveDirection.y; //guardamos la Y que tenemos
         Vector3 movHorizontal = transform.right * Input.GetAxis(m_HorizontalAxis); 
         Vector3 movVertical = transform.forward * Input.GetAxis(m_VerticalAxis);
+        
+        m_MoveDirection = movHorizontal + movVertical;// + m_ExternalForces; //external forces son fuerzas como las de las plataformas o otros elementos que mueven al jugador
 
-        m_MoveDirection = movHorizontal + movVertical;
+
         m_MoveDirection = m_MoveDirection.normalized * m_MoveSpeed; //noramlizamos el vector para que si puslas dos teclas a la vez no vaya mas rapido el jugador. Osea, no tiene que ser un vector (1,1,0), ha de ser (0.75, 0.75, 0) o algo asi
+
+        m_MoveDirection = m_MoveDirection + m_ExternalForces;
+        m_ExternalForces = Vector3.zero; //ponemos a cero las fuerzas que ya se han aplicado
+        
 
         m_MoveDirection.y = yStore; //ponemos la Y guardada que es la buena y no la que se ha generado con todo el pifostio de antes
 
@@ -141,6 +154,11 @@ public class PlayerController : MonoBehaviour
 
         m_MoveDirection = direction * m_KnockBackForce;
         m_MoveDirection.y = m_KnockBackForce;
+    }
+
+    public void ApplyExternalForces(Vector3 externalForces)
+    {
+        m_ExternalForces += externalForces; //+= por si se le aplican diversas fuerzas
     }
 
 }
