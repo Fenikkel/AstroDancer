@@ -28,7 +28,7 @@ public class EnemyFollowerIA : MonoBehaviour
     private void Start()
     {
         m_navMeshAgent = GetComponent<NavMeshAgent>();
-        m_player = GameObject.FindGameObjectWithTag("Player").transform;
+        m_player = GameObject.FindGameObjectWithTag("m_Player").transform;
         CheckPath();    // Compruebo si tiene Inicio y final, si no da error
         m_Current_Destination = m_End_Path; // Pone el camino actual el final del path
         m_navMeshAgent.SetDestination(m_Current_Destination.position);

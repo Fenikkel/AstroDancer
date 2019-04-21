@@ -5,12 +5,20 @@ using UnityEngine;
 public class PlatformAttach : MonoBehaviour
 {
 
-    public GameObject Player;
+    private GameObject Player;
+    
+
+    private void Start()
+    {
+        Player = GameObject.FindGameObjectWithTag("Player"); //Esta buscant soles un jugador
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == Player)
         {
+            Debug.Log("Entry");
+
             Player.transform.parent = transform;
         }
     }
@@ -19,6 +27,7 @@ public class PlatformAttach : MonoBehaviour
     {
         if (other.gameObject == Player)
         {
+            Debug.Log("Exit");
             Player.transform.parent = null;
         }
     }

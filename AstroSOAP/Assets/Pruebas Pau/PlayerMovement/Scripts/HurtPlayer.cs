@@ -10,7 +10,7 @@ public class HurtPlayer : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "m_Player")
         {
             Vector3 hitDirection = other.transform.position - transform.position; //asi cojemos la direccion contraria a la que el jugador estaba iendo
 

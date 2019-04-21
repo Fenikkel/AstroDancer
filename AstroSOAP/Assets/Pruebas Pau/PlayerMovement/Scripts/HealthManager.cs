@@ -150,7 +150,7 @@ public class HealthManager : MonoBehaviour
         //respawneamos el jugador
         m_ThePlayer.transform.position = m_RespawnPoint;
         //Debug.Log(m_RespawnPoint);
-        //Debug.Log("Player " + m_ThePlayer.transform.position);
+        //Debug.Log("m_Player " + m_ThePlayer.transform.position);
         m_CurrentHealth = m_MaxHealth;
 
         //lo hacemos invencible
