@@ -36,11 +36,12 @@ public class EnemyFlameIA : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(m_navMeshAgent.hasPath && m_navMeshAgent.remainingDistance <= m_navMeshAgent.stoppingDistance);
-        drawPath(m_navMeshAgent.path);
+       drawPath(m_navMeshAgent.path);
         CheckStalePath();
         if (m_navMeshAgent.hasPath && m_navMeshAgent.remainingDistance <= m_navMeshAgent.stoppingDistance)
             nextCorner();
+        else
+            Debug.Log("Aun no ha llegado");
     }
 
     private void CheckStalePath()
