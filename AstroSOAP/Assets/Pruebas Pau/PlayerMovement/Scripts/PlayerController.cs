@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//https://answers.unity.com/questions/8094/what-are-all-the-joystick-buttons-for-an-xbox-360p.html
+
 public class PlayerController : MonoBehaviour
 {
     [HideInInspector]

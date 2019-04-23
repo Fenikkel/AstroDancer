@@ -44,7 +44,7 @@ public class CheckPoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals("m_Player")) //Equals tiene menor coste que == (mas efficient)
+        if (other.tag.Equals("Player")) //Equals tiene menor coste que == (mas efficient)
         {
             m_TheHealthManager.SetSpawnPoint(transform.position); //el nuevo spawn point sera el del objeto que tenga este script y haya entrado en trigger collision con el el jugador
             CheckPointOn();

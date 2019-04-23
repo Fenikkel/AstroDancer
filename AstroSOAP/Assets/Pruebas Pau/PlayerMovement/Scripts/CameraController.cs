@@ -8,7 +8,7 @@ public class CameraController : MonoBehaviour
     public Transform m_CameraPivot; // con esto, podemos cambiar facilmente de seguir al jugador, a seguir otras cosas (hacer railes por eje`mplo)
 
     public float m_RotateSpeed = 5;
-    public Vector3 m_Offset;
+    public Vector3 m_Offset; //no se porque pero el offset funciona al reves de lo que le indicas (-y es +y, etc)
 
     [Range(1, 60)]
     public float m_MaxViewAngle = 45; //hasta donde podremos subir la camara
@@ -18,6 +18,11 @@ public class CameraController : MonoBehaviour
     public bool m_InvertY = false;
     public bool m_UseOffsetValues = false;
     public bool m_EnableCameraRotation = false;
+    public bool m_EnableSemiCameraRotation = false;
+
+    private Quaternion m_TargetAngle = Quaternion.Euler(0, 0, 0);
+    public float m_SemiRotateSpeed = 0.1f;
+
 
 
 
@@ -30,21 +35,14 @@ public class CameraController : MonoBehaviour
         else //con los offset no mola si rotas la camara, mejor modificarla tu pero que en X = 0!
         {
             m_EnableCameraRotation = false;
+            m_EnableSemiCameraRotation = false;
+
         }
 
         //con esto sacamos al pivot de ser hijo de la camara
         m_CameraPivot.transform.parent = null; //hacemos esto asi para poder dejar inicialmente(antes de que se de al play) el pivot como hijo de la camara y asi poder hacer un prefab con casi todo configurado.
 
         //m_CameraPivot.Rotate(Vector3.zero); //por si estaba rotada
-
-        if (!m_EnableCameraRotation) //si la camara no gira, hay que poner manualmente la rotacion en Y de la camara para que el jugador no vaya en direcciones que no toca
-        {
-            m_CameraPivot.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0); //asi tendra la misma direccion que la camara y si el jugador se menea en base al pivote se meneara correctamente
-        }
-        else
-        {
-            m_CameraPivot.transform.rotation = Quaternion.Euler(0, 0, 0);
-        }
 
         m_CameraPivot.transform.position = m_CameraTarget.transform.position; //pivot coje la posicion del jugador
         //m_CameraPivot.transform.parent = m_CameraTarget.transform; //pivot se hace hijo del jugador para poder seguirlo y que la camara gire cuando gire el jugador
@@ -53,6 +51,38 @@ public class CameraController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked; //esconde el cursor y lo bloquea al centro de la pantalla
         print(transform.rotation.eulerAngles.y);
+
+        transform.position = m_CameraTarget.position - m_Offset; //DePRUEBAS
+
+
+        if (!m_EnableCameraRotation && !m_EnableSemiCameraRotation) //si la camara no gira, hay que poner manualmente la rotacion en Y de la camara para que el jugador no vaya en direcciones que no toca
+        {
+            m_CameraPivot.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0); //asi tendra la misma direccion que la camara y si el jugador se menea en base al pivote se meneara correctamente
+        }
+        else if(m_EnableCameraRotation)
+        {
+            m_EnableSemiCameraRotation = false;
+            m_CameraPivot.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else //es camera semirotation
+        {
+            //m_CameraPivot.transform.rotation = Quaternion.Euler(0, 45, 0);
+            //PARA TENER LA CAMERA GIRADA YA
+            m_CameraPivot.Rotate(0, -90, 0);
+
+            float desiredYAngle = m_CameraPivot.eulerAngles.y; //euler angles hace que el angulo del quaternion sea el que nosotros entendemos (Osea no tiene en cuenta la W)
+
+            Quaternion rotation = Quaternion.Euler(0, desiredYAngle, 0);
+            transform.position = m_CameraTarget.transform.position - (rotation * m_Offset); //Asi no funciona --> m_Offset * rotation  (Es al reves)
+
+            transform.LookAt(m_CameraTarget);
+
+            Debug.Log("SemiRotation");
+        }
+
+
+        m_TargetAngle = Quaternion.Euler(m_CameraPivot.eulerAngles.x, m_CameraPivot.eulerAngles.y, m_CameraPivot.eulerAngles.z);
+        transform.LookAt(m_CameraTarget);
 
     }
 
@@ -68,6 +98,10 @@ public class CameraController : MonoBehaviour
             RotateCamera();
             Debug.Log(transform.rotation.eulerAngles.y);
         }
+        else if (m_EnableSemiCameraRotation)
+        {
+            SemiRotateCamera();
+        }
         else
         {
             MoveCamera();
@@ -78,6 +112,70 @@ public class CameraController : MonoBehaviour
     private void MoveCamera()
     {
         transform.position = m_CameraTarget.position - m_Offset;
+    }
+
+
+    private void SemiRotateCamera()
+    {
+
+        //PROBLEMA CUANDO HACIENDO LA INTERPOLACION, ACABA CON EL MISMO ANGULO PERO CAMERA PIVOT Y TARGETANGLE NO TIENEN LOS MISMOS VALORES
+        //Debug.Log(Input.GetAxisRaw("Mouse X"));
+
+
+        Debug.Log(m_CameraPivot.transform.rotation);
+        Debug.Log(m_TargetAngle);
+
+
+        m_CameraPivot.transform.rotation = Quaternion.Slerp(m_CameraPivot.transform.rotation, m_TargetAngle, 0.5f);
+
+        if (m_CameraPivot.transform.rotation == m_TargetAngle)
+        {
+            print("yata");
+
+            float mouse = Input.GetAxisRaw("Mouse X");
+
+
+            if (mouse > 0 || Input.GetAxis("RButton") != 0)
+            {
+
+                print("Dreta");
+
+                m_TargetAngle = Quaternion.Euler(m_CameraPivot.eulerAngles.x, (m_CameraPivot.eulerAngles.y - 90), m_CameraPivot.eulerAngles.z);
+                //m_CameraPivot.Rotate(0, -90 , 0); 
+                //m_CameraPivot.rotation = Quaternion.Lerp(desde.rotation, hasta.rotation, Time.time * 0.1f);
+            }
+            else if (mouse < 0 || Input.GetAxis("LButton") != 0)
+            {
+                print("Esquerra");
+
+
+                /*Transform desde = m_CameraPivot;
+                Transform hasta = desde;
+                hasta.Rotate(0, 90, 0);
+                m_CameraPivot.rotation = Quaternion.Lerp(desde.rotation, hasta.rotation, Time.time * 0.1f);
+                */
+                //m_CameraPivot.Rotate(0, 90 , 0); 
+
+                m_TargetAngle = Quaternion.Euler(m_CameraPivot.eulerAngles.x, (m_CameraPivot.eulerAngles.y + 90), m_CameraPivot.eulerAngles.z);
+
+            }
+        }
+
+        
+
+        //m_CameraPivot.Rotate(0, -1 * (mouse * 90) , 0); //seria bo si donara -1 0 i 1 pero el ratoli no ho dona aixina
+
+
+        /*Quaternion pivotRotation = Quaternion.Euler(0, -1 * (mouse * 90), 0);
+        m_CameraPivot.Rotate(pivotRotation);*/
+
+        //Move the camera based on the current rotation of the target & the original offset
+        float desiredYAngle =   m_CameraPivot.eulerAngles.y; //euler angles hace que el angulo del quaternion sea el que nosotros entendemos (Osea no tiene en cuenta la W)
+
+        Quaternion rotation = Quaternion.Euler(0, desiredYAngle, 0);
+        transform.position = m_CameraTarget.transform.position - (rotation * m_Offset); //Asi no funciona --> m_Offset * rotation  (Es al reves)
+
+        transform.LookAt(m_CameraTarget);
     }
 
     private void RotateCamera()
