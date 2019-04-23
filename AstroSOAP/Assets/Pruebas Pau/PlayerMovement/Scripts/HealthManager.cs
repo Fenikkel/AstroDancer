@@ -13,6 +13,7 @@ public class HealthManager : MonoBehaviour
     private float m_InvincibilityCounter;
 
     public PlayerController m_ThePlayer;
+    public PlatformGenerator m_PlatformGenerator;
 
     public Renderer m_PlayerRenderer; //para poder hacer parpadear el jugador
 
@@ -130,6 +131,8 @@ public class HealthManager : MonoBehaviour
     public IEnumerator RespawnCo() //respawn coroutine
     {
         m_IsRespawning = true; //mientras respawneamos restringimos el respawn para no hacerlo varias veces
+
+        StopScene(true);
         m_ThePlayer.gameObject.SetActive(false);
         GameObject rubish = Instantiate(m_DeathEffect, m_ThePlayer.transform.position, m_ThePlayer.transform.rotation);
 
@@ -146,7 +149,7 @@ public class HealthManager : MonoBehaviour
         m_IsRespawning = false; //ya podemos volver a respawnear
 
         m_ThePlayer.gameObject.SetActive(true);
-
+        StopScene(false);
         //respawneamos el jugador
         m_ThePlayer.transform.position = m_RespawnPoint;
         //Debug.Log(m_RespawnPoint);
@@ -163,5 +166,13 @@ public class HealthManager : MonoBehaviour
     public void SetSpawnPoint(Vector3 newRespawnPosition)
     {
         m_RespawnPoint = newRespawnPosition;
+    }
+
+    private void StopScene(bool stop)
+    {
+        if (m_PlatformGenerator != null)
+        {
+            m_PlatformGenerator.GeneratePlatforms(!stop);
+        }
     }
 }

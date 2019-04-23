@@ -50,7 +50,7 @@ public class CameraController : MonoBehaviour
 
 
         Cursor.lockState = CursorLockMode.Locked; //esconde el cursor y lo bloquea al centro de la pantalla
-        print(transform.rotation.eulerAngles.y);
+        //print(transform.rotation.eulerAngles.y);
 
         transform.position = m_CameraTarget.position - m_Offset; //DePRUEBAS
 
@@ -96,7 +96,7 @@ public class CameraController : MonoBehaviour
         if (m_EnableCameraRotation)
         {
             RotateCamera();
-            Debug.Log(transform.rotation.eulerAngles.y);
+            //Debug.Log(transform.rotation.eulerAngles.y);
         }
         else if (m_EnableSemiCameraRotation)
         {
@@ -180,7 +180,7 @@ public class CameraController : MonoBehaviour
 
     private void RotateCamera()
     {
-        Debug.Log(Input.GetAxis("Mouse X"));
+        //Debug.Log(Input.GetAxis("Mouse X"));
         //Get the X position of the mouse & rotate the Target  
         float horizontal = (Input.GetAxis("Mouse X")) * m_RotateSpeed; //comienza siempre con 0)  
         m_CameraPivot.Rotate(0, horizontal, 0);

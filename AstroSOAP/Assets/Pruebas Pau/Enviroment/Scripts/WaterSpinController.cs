@@ -50,8 +50,8 @@ public class WaterSpinController : MonoBehaviour
 
     private void ThreeSixty()
     {
-        Debug.Log(m_SpinCounter);
-        Debug.Log(m_CircunferenceCounter);
+        //Debug.Log(m_SpinCounter);
+        //Debug.Log(m_CircunferenceCounter);
 
         if (m_SpinCounter <= 0) //si podemos girar
         {

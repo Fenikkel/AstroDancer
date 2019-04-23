@@ -14,6 +14,8 @@ public class PlatformGenerator : MonoBehaviour
     private float m_GeneratorSize;
     private float m_GeneratedPlatformSize;
     private float m_PlatformOffset;
+
+    public bool m_GeneratePlatforms = false;
     void Start()
     {
         m_GeneratorSize = transform.lossyScale.y;
@@ -26,7 +28,7 @@ public class PlatformGenerator : MonoBehaviour
 
     void Update()
     {
-        if (m_GenerateCounter <= 0){ //si podemos generar una plataforma
+        if (m_GenerateCounter <= 0 && m_GeneratePlatforms){ //si podemos generar una plataforma
             Instantiate(m_GeneratedPlatform, new Vector3(transform.position.x, transform.position.y - m_PlatformOffset, transform.position.z), Quaternion.identity);
             m_GenerateCounter = m_TimeBetweenPlatforms;
 
@@ -35,5 +37,10 @@ public class PlatformGenerator : MonoBehaviour
         {
             m_GenerateCounter -= Time.deltaTime;
         }
+    }
+
+    public void GeneratePlatforms(bool bolea)
+    {
+        m_GeneratePlatforms = bolea; 
     }
 }
