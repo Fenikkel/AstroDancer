@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1467340149198514223
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1467340149198514208}
+  - component: {fileID: 1467340149198514209}
+  - component: {fileID: 1467340149198514222}
+  m_Layer: 0
+  m_Name: Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1467340149198514208
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467340149198514223}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.8752135, y: 0.1133374, z: 2.3738842}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1467340149198514209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467340149198514223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6af525b116a512418ac937fb7f18b09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_GoldText: {fileID: 0}
+  m_CurrentGold: 3
+--- !u!114 &1467340149198514222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467340149198514223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea2f35736cea2ea4f91be13729bd231d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CurrentHealth: 2
+  m_MaxHealth: 3
+  m_MaxHeartContainers: 5
+  m_InvincibilityLength: 1
+  m_ThePlayer: {fileID: 0}
+  m_PlatformGenerator: {fileID: 0}
+  m_PlayerRenderer: {fileID: 0}
+  m_FlashLength: 0.1
+  m_RespawnPoint: {x: 0, y: 5.21, z: 0}
+  m_RespawnLength: 2
+  m_DeathEffect: {fileID: 2382953396912764509, guid: 34fb6f9d0b8e9ec4d9b45b6dbad2dd54,
+    type: 3}
+  m_BlackScreen: {fileID: 0}
+  m_FadeSpeed: 2
+  m_WaitForFade: 1
+  m_healthText: {fileID: 0}
+  m_FullHeart: {fileID: 21300000, guid: 194ef60baa9b775419670888bc0faf62, type: 3}
+  m_EmptyHeart: {fileID: 21300000, guid: fe4b11b1eb8f0724e8abc72636960cfe, type: 3}
+  m_HeartArray:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
