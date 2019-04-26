@@ -7,46 +7,54 @@ using UnityEngine.UI;
 public class HealthManager : MonoBehaviour
 {
     
+    public PlayerController m_ThePlayer;
+    public PlatformGenerator m_PlatformGenerator;
+    public Renderer m_PlayerRenderer; //para poder hacer parpadear el jugador
+    public GameObject m_DeathEffect;
+
+    [Header("UI")]
+    public Image m_BlackScreen;
+    public Text m_healthText;
+    public Sprite m_FullHeart;
+    public Sprite m_EmptyHeart;
+    public Image[] m_HeartArray;
+
+    [Header("Sound")]
+    public AudioSource m_DeathAudio;
+    public AudioSource m_HurtAudio;
+    [Range(0f, 2f)]
+    public float m_PitchRange = 0.2f;
+    private float m_OriginalPitch; //variamos el pitch alrededor del pitch original
+
+    [Header("Health")]
     public int m_CurrentHealth = 2;
     [Range(1, 5)]
     public int m_MaxHealth = 3; //en ese momento, no la cantidad maxima de corazones que podemos tener
 
     public int m_MaxHeartContainers = 5; //cantidad maxima de containers (no han de superar el heart array length)
 
+    [Header("Invencibility")]
     public float m_InvincibilityLength = 1f;
     private float m_InvincibilityCounter;
-
-    public PlayerController m_ThePlayer;
-    public PlatformGenerator m_PlatformGenerator;
-
-    public Renderer m_PlayerRenderer; //para poder hacer parpadear el jugador
-
     private float m_FlashCounter;
     public float m_FlashLength = 0.1f; //tiempo entre parpadeo
 
+    [Header("Respawn")]
     private bool m_IsRespawning = false;
     public Vector3 m_RespawnPoint;
     public float m_RespawnLength = 2;
-
-    public GameObject m_DeathEffect;
-
-    public Image m_BlackScreen;
     private bool m_IsFadeToBlack;
     private bool m_IsFadeFromBlack;
     public float m_FadeSpeed = 2f; //Para que vaya bien, fade speed tiene que ser mayor que wait for fade
     public float m_WaitForFade = 1f;
 
-    public Text m_healthText;
-
-    public Sprite m_FullHeart;
-    public Sprite m_EmptyHeart;
-
-    public Image[] m_HeartArray;
-
 
 
     void Start()
     {
+        //m_HurtAudio = GetComponent<AudioSource>();
+        m_OriginalPitch = m_HurtAudio.pitch;
+
         m_CurrentHealth = m_MaxHealth;
 
         m_healthText.text = "Health: " + m_CurrentHealth;
@@ -130,12 +138,15 @@ public class HealthManager : MonoBehaviour
 
             if (m_CurrentHealth <= 0)
             {
-
+                m_DeathAudio.Play();
                 Respawn();
                 
             }
             else
             {
+                m_HurtAudio.pitch = UnityEngine.Random.Range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
+                m_HurtAudio.Play();
+
                 m_ThePlayer.KnockBack(knockBackDirection);
 
                 m_InvincibilityCounter = m_InvincibilityLength;

@@ -136,3 +136,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_GoldValue: 1
+  m_PickAudio: {fileID: 8300000, guid: a84961f186d51b349955cdb83426824c, type: 3}
+  m_PitchRange: 0.1

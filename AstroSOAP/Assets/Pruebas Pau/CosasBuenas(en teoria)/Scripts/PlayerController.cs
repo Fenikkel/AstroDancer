@@ -32,12 +32,19 @@ public class PlayerController : MonoBehaviour
     public float m_KnockBackTime;
     private float m_KnockBackCounter;
 
+    [Header("Sound")]
+    public AudioSource m_JumpAudio;
+    [Range(0f, 2f)]
+    public float m_PitchRange = 0.2f;
+    private float m_OriginalPitch; //variamos el pitch alrededor del pitch original
 
 
     void Start()
     {
+        m_OriginalPitch = m_JumpAudio.pitch;
         m_ExternalForces = Vector3.zero;
         m_PlayerController = GetComponent<CharacterController>();
+
     }
 
 
@@ -124,6 +131,9 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         m_MoveDirection.y = m_JumpForce;
+
+        m_JumpAudio.pitch = UnityEngine.Random.Range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
+        m_JumpAudio.Play();
     }
 
     private void Move()
@@ -157,6 +167,7 @@ public class PlayerController : MonoBehaviour
 
         m_MoveDirection = direction * m_KnockBackForce;
         m_MoveDirection.y = m_KnockBackForce;
+
     }
 
     public void ApplyExternalForces(Vector3 externalForces)

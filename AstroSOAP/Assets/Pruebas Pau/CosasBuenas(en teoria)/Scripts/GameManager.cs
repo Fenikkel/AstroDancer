@@ -7,13 +7,16 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public Text m_DebuggGoldText;
     public Text m_GoldText;
+
     public int m_CurrentGold = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        m_GoldText.text = "Gold: " + m_CurrentGold;
+        m_DebuggGoldText.text = "Gold: " + m_CurrentGold;
+        m_GoldText.text = m_CurrentGold.ToString();
     }
 
     // Update is called once per frame
@@ -25,7 +28,9 @@ public class GameManager : MonoBehaviour
     public void AddGold(int goldToAdd)
     {
         m_CurrentGold += goldToAdd;
-        m_GoldText.text = "Gold: " + m_CurrentGold;
+        m_DebuggGoldText.text = "Gold: " + m_CurrentGold;
+        m_GoldText.text = m_CurrentGold.ToString();
+
 
     }
 }
