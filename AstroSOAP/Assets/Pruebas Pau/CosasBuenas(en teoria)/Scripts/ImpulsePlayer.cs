@@ -11,14 +11,21 @@ public class ImpulsePlayer : MonoBehaviour
     private Vector3 m_PushForces;
     private GameObject m_Player;
     private PlayerController m_PlayerController;
+    private AudioSource m_SpeedUpSound;
 
 
     void Start()
     {
+        m_SpeedUpSound = GetComponent<AudioSource>();
         m_PushForces = Vector3.zero;
         m_Player = GameObject.FindGameObjectWithTag("Player"); //Esta buscant soles un jugador
         m_PlayerController = m_Player.GetComponent<PlayerController>();
 
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        m_SpeedUpSound.Play();
     }
 
     private void OnTriggerStay(Collider other)

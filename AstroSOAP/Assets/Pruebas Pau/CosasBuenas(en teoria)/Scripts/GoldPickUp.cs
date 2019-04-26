@@ -11,6 +11,8 @@ public class GoldPickUp : MonoBehaviour
 
     [Header("Sound")]
     public AudioClip m_PickAudio; //el archivo de audio
+    [Range(0f, 1.0f)]
+    public float m_Volume = 1.0f;
     /*[Range(0f, 2f)]
     public float m_PitchRange = 0.1f;
     private float m_OriginalPitch; //variamos el pitch alrededor del pitch original
@@ -29,7 +31,7 @@ public class GoldPickUp : MonoBehaviour
             m_GameManager.AddGold(m_GoldValue);
             //m_PickAudio.pitch = UnityEngine.Random.Range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
             //m_PickAudio.Play();
-            AudioSource.PlayClipAtPoint(m_PickAudio, transform.position);
+            AudioSource.PlayClipAtPoint(m_PickAudio, Camera.main.transform.position + 0.1f * transform.position, m_Volume); //lo ponemos en la camera para que suene al lado de ella
 
             Destroy(gameObject);
         }

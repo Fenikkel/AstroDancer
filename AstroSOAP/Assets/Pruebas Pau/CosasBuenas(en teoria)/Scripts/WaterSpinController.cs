@@ -17,6 +17,7 @@ public class WaterSpinController : MonoBehaviour
 
     private Transform m_WaterParticles;
     private Transform m_WaterParticles2;
+    private Vector3 m_InitialRotation;
 
 
     private float m_CircunferenceCounter=0;
@@ -24,6 +25,8 @@ public class WaterSpinController : MonoBehaviour
 
     void Start()
     {
+        GetComponent<Renderer>().enabled = false;
+        m_InitialRotation = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
         m_WaterParticles = transform.GetChild(0);
         m_WaterParticles2 = transform.GetChild(1);
 
@@ -62,7 +65,9 @@ public class WaterSpinController : MonoBehaviour
             m_CircunferenceCounter += Time.deltaTime * m_RotateSpeed;
             if (m_CircunferenceCounter > 360f) //Si ha pegado una vuelta
             {
-                transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.x);
+                //transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.x);
+                transform.rotation = Quaternion.Euler(m_InitialRotation.x, m_InitialRotation.y, m_InitialRotation.z);
+
                 m_CircunferenceCounter = 0;
                 m_SpinCounter = m_SpinDelay;
             }

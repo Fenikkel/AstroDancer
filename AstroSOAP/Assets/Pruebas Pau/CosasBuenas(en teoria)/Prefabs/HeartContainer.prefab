@@ -106,3 +106,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ContainersToGive: 1
+  m_PickAudio: {fileID: 8300000, guid: 11a2dd040c025e14ea7678d888536a12, type: 3}

@@ -6,6 +6,10 @@ public class HeartContainer : MonoBehaviour
 {
     public int m_ContainersToGive = 1;
     private HealthManager m_HealthManager;
+    [Header("Sound")]
+    public AudioClip m_PickAudio; //el archivo de audio
+    [Range(0f,1.0f)]
+    public float m_Volume = 1.0f;
 
 
     // Start is called before the first frame update
@@ -22,6 +26,7 @@ public class HeartContainer : MonoBehaviour
         {
 
             m_HealthManager.AddHeartContainer(m_ContainersToGive);
+            AudioSource.PlayClipAtPoint(m_PickAudio, Camera.main.transform.position + 0.1f * transform.position, m_Volume); 
             Destroy(gameObject);
 
         }

@@ -73,7 +73,7 @@ public class HealthManager : MonoBehaviour
 
             if (i < m_MaxHealth)
             {
-                print("one heart");
+                //print("one heart");
                 m_HeartArray[i].enabled = true;
             }
             else
