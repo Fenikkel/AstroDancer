@@ -126,6 +126,16 @@ public class HealthManager : MonoBehaviour
         }
     }
 
+    public void KillPlayer()
+    {
+        m_CurrentHealth = 0;
+        m_healthText.text = "Health: " + m_CurrentHealth;
+
+        UpdateUI();
+        m_DeathAudio.Play();
+        Respawn();
+    }
+
     public void HurtPlayer(int damage, Vector3 knockBackDirection)
     {
 

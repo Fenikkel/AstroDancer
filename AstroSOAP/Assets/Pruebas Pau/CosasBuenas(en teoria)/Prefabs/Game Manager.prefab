@@ -84,7 +84,7 @@ MonoBehaviour:
   m_MaxHeartContainers: 5
   m_InvincibilityLength: 1
   m_FlashLength: 0.1
-  m_RespawnPoint: {x: 0, y: 5.21, z: 0}
+  m_RespawnPoint: {x: 42, y: 5.21, z: 24}
   m_RespawnLength: 2
   m_FadeSpeed: 2
   m_WaitForFade: 1
