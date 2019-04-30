@@ -216,10 +216,13 @@ public class HealthManager : MonoBehaviour
 
         m_IsRespawning = false; //ya podemos volver a respawnear
 
-        m_ThePlayer.gameObject.SetActive(true);
+        // m_ThePlayer.gameObject.SetActive(true); Si activamos el personaje antes de moverlo entrara en el trigger del agua de matarlo y por eso a veces no respawneaba bien. Bug Fixed.
+
         StopScene(false);
         //respawneamos el jugador
         m_ThePlayer.transform.position = m_RespawnPoint;
+        m_ThePlayer.gameObject.SetActive(true);
+
         //Debug.Log(m_RespawnPoint);
         //Debug.Log("m_Player " + m_ThePlayer.transform.position);
         m_CurrentHealth = m_MaxHealth;

@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     public Transform m_CameraPivot; //Si sabemos el pivot de la camara podemos hacer que el jugador mire hacia el
     public GameObject m_PlayerModel; //referencia al modelo del personaje
     private Vector3 m_ExternalForces;
+    private ParticleSystem m_RunParticles; // Particulas del suelo 
 
 
     [Header("Inputs")]
@@ -44,6 +45,7 @@ public class PlayerController : MonoBehaviour
         m_OriginalPitch = m_JumpAudio.pitch;
         m_ExternalForces = Vector3.zero;
         m_PlayerController = GetComponent<CharacterController>();
+        m_RunParticles = GetComponentInChildren<ParticleSystem>();
 
     }
 
@@ -63,8 +65,12 @@ public class PlayerController : MonoBehaviour
                 m_MoveDirection.y = 0f; //porque sino estamos aplicando la fuerza de la gravedad todo el rato y el cuerpo pesara un cojon
                 if (Input.GetButtonDown(m_JumpInput))
                 {
+                    m_RunParticles.Stop(); // Cuando salta paramos las particulas de correr para que no salgan particulas voladoras.
                     Jump(); //Configuramos el salto
                 }
+                else if(m_RunParticles.isStopped)                
+                    m_RunParticles.Play(); // Volvemos a activarlas cuando esten desacrtivadas y este tocando el suelo.
+                
             }
 
         }

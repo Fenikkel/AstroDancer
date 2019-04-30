@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4449346, g: 0.49451, b: 0.5736509, a: 1}
+  m_IndirectSpecularColor: {r: 0.4449349, g: 0.49451083, b: 0.573652, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1976,6 +1976,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 690764749959667819, guid: 8ea507fbc5931224fa99a05e79dfdd0a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 690764749727376317, guid: 8ea507fbc5931224fa99a05e79dfdd0a,
         type: 3}
       propertyPath: m_CameraPivot
@@ -2490,6 +2495,26 @@ PrefabInstance:
     - target: {fileID: 9098044999045785522, guid: e08befef04b304c459ea85bc13c2d79e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9098044999019253008, guid: e08befef04b304c459ea85bc13c2d79e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9098044999019253009, guid: e08befef04b304c459ea85bc13c2d79e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9098045000366236522, guid: e08befef04b304c459ea85bc13c2d79e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9098045000366236525, guid: e08befef04b304c459ea85bc13c2d79e,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

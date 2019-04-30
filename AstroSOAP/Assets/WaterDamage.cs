@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class WaterDamage : MonoBehaviour
 {
-
     private HealthManager m_HealthManager;
 
     private void Awake()
