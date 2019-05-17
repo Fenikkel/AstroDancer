@@ -13,6 +13,9 @@ public class ImpulsePlayer : MonoBehaviour
     private PlayerController m_PlayerController;
     private AudioSource m_SpeedUpSound;
 
+    private float m_speedOffset;
+    private Renderer m_rend;
+    private float m_offset;
 
     void Start()
     {
@@ -20,7 +23,13 @@ public class ImpulsePlayer : MonoBehaviour
         m_PushForces = Vector3.zero;
         m_Player = GameObject.FindGameObjectWithTag("Player"); //Esta buscant soles un jugador
         m_PlayerController = m_Player.GetComponent<PlayerController>();
-
+        m_rend = GetComponent<Renderer>();
+        m_speedOffset = m_Speed * 0.1f;
+    }
+    private void Update()
+    {
+        m_offset = Time.time * m_Speed * 0.1f;
+        m_rend.material.SetTextureOffset("_MainTex", new Vector2(0, m_offset));
     }
 
     private void OnTriggerEnter(Collider other)
