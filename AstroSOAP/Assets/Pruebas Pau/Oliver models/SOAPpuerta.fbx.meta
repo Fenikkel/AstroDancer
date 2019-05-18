@@ -17,7 +17,12 @@ ModelImporter:
     3300000: Cube.003
     4300000: Cube.003
     10800000: Lamp
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: c8b40106f31a05141ac161db4f4cf8b2, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -57,7 +62,7 @@ ModelImporter:
     importCameras: 1
     importLights: 1
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
