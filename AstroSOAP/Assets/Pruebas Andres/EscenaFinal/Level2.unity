@@ -5442,6 +5442,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1928439138 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6233448719174695792, guid: ce1ac1b4bba204749aeb341cf6f3dfbc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1967339577}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1928439140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928439138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13963f295f96ce48aeb79debd267d4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DamageToGive: 1
 --- !u!1001 &1967339577
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5702,6 +5721,11 @@ PrefabInstance:
     - target: {fileID: 6233448719174695800, guid: ce1ac1b4bba204749aeb341cf6f3dfbc,
         type: 3}
       propertyPath: CollisionModule.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6233448719174695800, guid: ce1ac1b4bba204749aeb341cf6f3dfbc,
+        type: 3}
+      propertyPath: CollisionModule.collisionMessages
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6233448719174695803, guid: ce1ac1b4bba204749aeb341cf6f3dfbc,
