@@ -14,10 +14,18 @@ public class HealthManager : MonoBehaviour
 
     [Header("UI")]
     public Image m_BlackScreen;
-    public Text m_healthText;
+    public Text m_HealthText;
+
+
+    public bool m_OldUI = false; 
     public Sprite m_FullHeart;
     public Sprite m_EmptyHeart;
     public Image[] m_HeartArray;
+
+    //CON LA NUEVA UI SOLO PUEDEN HABER 3 HEART CONTAINERS
+    public Image m_WaveImage;
+    public Sprite[] m_WaveSpriteArray;
+
 
     [Header("Sound")]
     public AudioSource m_DeathAudio;
@@ -32,6 +40,8 @@ public class HealthManager : MonoBehaviour
     public int m_MaxHealth = 3; //en ese momento, no la cantidad maxima de corazones que podemos tener
 
     public int m_MaxHeartContainers = 5; //cantidad maxima de containers (no han de superar el heart array length)
+
+
 
     [Header("Invencibility")]
     public float m_InvincibilityLength = 1f;
@@ -57,30 +67,48 @@ public class HealthManager : MonoBehaviour
 
         m_CurrentHealth = m_MaxHealth;
 
-        m_healthText.text = "Health: " + m_CurrentHealth;
+        //m_HealthText.text = "Health: " + m_CurrentHealth;
 
-        for (int i = 0; i < m_HeartArray.Length; i++)
+        if (m_OldUI)
         {
+            for (int i = 0; i < m_HeartArray.Length; i++)
+            {
 
-            if (i < m_CurrentHealth)
-            {
-                m_HeartArray[i].sprite = m_FullHeart;
-            }
-            else
-            {
-                m_HeartArray[i].sprite = m_EmptyHeart;
-            }
+                if (i < m_CurrentHealth)
+                {
+                    m_HeartArray[i].sprite = m_FullHeart;
+                }
+                else
+                {
+                    m_HeartArray[i].sprite = m_EmptyHeart;
+                }
 
-            if (i < m_MaxHealth)
-            {
-                //print("one heart");
-                m_HeartArray[i].enabled = true;
-            }
-            else
-            {
-                m_HeartArray[i].enabled = false;
+                if (i < m_MaxHealth)
+                {
+                    //print("one heart");
+                    m_HeartArray[i].enabled = true;
+                }
+                else
+                {
+                    m_HeartArray[i].enabled = false;
+                }
             }
         }
+        else
+        {
+            for (int i = 0; i < m_WaveSpriteArray.Length; i++)
+            {
+
+                if (i == m_CurrentHealth)
+                {
+                    m_WaveImage.sprite =  m_WaveSpriteArray[i];
+                }
+
+            }
+        }
+
+
+        
 
 
         //m_ThePlayer = FindObjectOfType<PlayerController>();
@@ -129,7 +157,7 @@ public class HealthManager : MonoBehaviour
     public void KillPlayer()
     {
         m_CurrentHealth = 0;
-        m_healthText.text = "Health: " + m_CurrentHealth;
+        //m_HealthText.text = "Health: " + m_CurrentHealth;
 
         UpdateUI();
         m_DeathAudio.Play();
@@ -142,7 +170,7 @@ public class HealthManager : MonoBehaviour
         if (m_InvincibilityCounter <= 0) { //si no estamos en modo invencibilidad
 
             m_CurrentHealth -= damage;
-            m_healthText.text = "Health: " + m_CurrentHealth;
+            //m_HealthText.text = "Health: " + m_CurrentHealth;
 
             UpdateUI();
 
@@ -175,14 +203,14 @@ public class HealthManager : MonoBehaviour
     public void HealPlayer(int healAmount)
     {
         m_CurrentHealth += healAmount;
-        m_healthText.text = "Health: " + m_CurrentHealth;
+        //m_HealthText.text = "Health: " + m_CurrentHealth;
 
         UpdateUI();
 
         if (m_CurrentHealth> m_MaxHealth){
 
             m_CurrentHealth = m_MaxHealth;
-            m_healthText.text = "Health: " + m_CurrentHealth;
+            //m_HealthText.text = "Health: " + m_CurrentHealth;
 
         }
     }
@@ -250,18 +278,35 @@ public class HealthManager : MonoBehaviour
 
     private void UpdateUI()
     {
-        for (int i = 0; i < m_HeartArray.Length; i++)
+        if (m_OldUI)
         {
+            for (int i = 0; i < m_HeartArray.Length; i++)
+            {
 
-            if (i < m_CurrentHealth)
-            {
-                m_HeartArray[i].sprite = m_FullHeart;
-            }
-            else
-            {
-                m_HeartArray[i].sprite = m_EmptyHeart;
+                if (i < m_CurrentHealth)
+                {
+                    m_HeartArray[i].sprite = m_FullHeart;
+                }
+                else
+                {
+                    m_HeartArray[i].sprite = m_EmptyHeart;
+                }
             }
         }
+        else{
+
+            for (int i = 0; i < m_WaveSpriteArray.Length; i++)
+            {
+
+                if (i == m_CurrentHealth)
+                {
+                    m_WaveImage.sprite = m_WaveSpriteArray[i];
+                }
+
+            }
+        }
+
+ 
     }
 
     public void AddHeartContainer(int heartsToAdd)

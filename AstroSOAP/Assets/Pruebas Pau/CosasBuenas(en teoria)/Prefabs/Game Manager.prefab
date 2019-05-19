@@ -68,6 +68,7 @@ MonoBehaviour:
     type: 3}
   m_BlackScreen: {fileID: 0}
   m_healthText: {fileID: 0}
+  m_OldUI: 0
   m_FullHeart: {fileID: 21300000, guid: 194ef60baa9b775419670888bc0faf62, type: 3}
   m_EmptyHeart: {fileID: 21300000, guid: fe4b11b1eb8f0724e8abc72636960cfe, type: 3}
   m_HeartArray:
@@ -76,6 +77,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  m_WaveImage: {fileID: 0}
+  m_WaveSpriteArray:
+  - {fileID: 21300000, guid: 2f67f1949cecd694fbdfb20836684cdc, type: 3}
+  - {fileID: 21300000, guid: de48d9efdce899340b0dd13fd59b3c4a, type: 3}
+  - {fileID: 21300000, guid: 531b182d4addab34285cda3142779db9, type: 3}
+  - {fileID: 21300000, guid: dea5cc6cab1a39642a4487a4b40aec16, type: 3}
   m_DeathAudio: {fileID: 3793813418262108669}
   m_HurtAudio: {fileID: 1275259171}
   m_PitchRange: 0.2
