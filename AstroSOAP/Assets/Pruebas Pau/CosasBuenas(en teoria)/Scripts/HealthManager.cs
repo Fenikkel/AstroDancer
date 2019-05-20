@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class HealthManager : MonoBehaviour
@@ -15,6 +16,7 @@ public class HealthManager : MonoBehaviour
     [Header("UI")]
     public Image m_BlackScreen;
     public Text m_HealthText;
+    public TMP_Text m_LivesText;
 
 
     public bool m_OldUI = false; 
@@ -40,6 +42,8 @@ public class HealthManager : MonoBehaviour
     public int m_MaxHealth = 3; //en ese momento, no la cantidad maxima de corazones que podemos tener
 
     public int m_MaxHeartContainers = 5; //cantidad maxima de containers (no han de superar el heart array length)
+
+    public int m_Lives = 4;
 
 
 
@@ -170,6 +174,10 @@ public class HealthManager : MonoBehaviour
         if (m_InvincibilityCounter <= 0) { //si no estamos en modo invencibilidad
 
             m_CurrentHealth -= damage;
+            if (m_CurrentHealth<0)
+            {
+                m_CurrentHealth = 0;
+            }
             //m_HealthText.text = "Health: " + m_CurrentHealth;
 
             UpdateUI();
@@ -220,6 +228,10 @@ public class HealthManager : MonoBehaviour
     {
         if (!m_IsRespawning) //si no estamos respawneando
         {
+            print("Lives: = " + m_Lives);
+            m_Lives--;
+            m_LivesText.text = m_Lives.ToString();
+            print("Lives: = " + m_Lives);
             StartCoroutine("RespawnCo");
         }
     }
@@ -250,6 +262,8 @@ public class HealthManager : MonoBehaviour
         //respawneamos el jugador
         m_ThePlayer.transform.position = m_RespawnPoint;
         m_ThePlayer.gameObject.SetActive(true);
+
+
 
         //Debug.Log(m_RespawnPoint);
         //Debug.Log("m_Player " + m_ThePlayer.transform.position);

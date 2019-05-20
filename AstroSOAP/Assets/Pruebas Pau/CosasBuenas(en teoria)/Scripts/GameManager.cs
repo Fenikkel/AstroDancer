@@ -4,12 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public Text m_DebuggGoldText;
     public Text m_GoldText;
-    public Text m_CollectibleText;
+    public TMP_Text m_CollectibleText;
 
 
     public int m_CurrentGold = 0;
