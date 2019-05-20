@@ -1,23 +1,27 @@
 fileFormatVersion: 2
-guid: 5c5836b1fe2b284449ed0bd0affc5be7
+guid: 557000830b97b394eaaa12ab328477ab
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
+    100002: Sphere003
     400000: //RootNode
-    2100000: unnamed
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Solid_003
-    7400000: Default Take
-    9500000: //RootNode
-    2186277476908879412: ImportLogs
+    400002: Sphere003
+    2100000: Sphere003Mat
+    2100002: Material__26
+    2100004: Material__38
+    2100006: Material__40
+    2100008: Material__39
+    2100010: Material__41
+    2300000: Sphere003
+    3300000: Sphere003
+    4300000: Sphere003
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: unnamed
-    second: {fileID: 2100000, guid: a7f4fd62c59b13d4988f9b3eddd22e7b, type: 2}
+      name: Sphere003Mat
+    second: {fileID: 2100000, guid: 1c5c7ab3a39f0c042a0fc307ca570ff2, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -70,7 +74,7 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
     previousCalculatedGlobalScale: 1
-    hasPreviousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -97,7 +101,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
