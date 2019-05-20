@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         m_DebuggGoldText.text = "Gold: " + m_CurrentGold;
-        m_CollectibleText.text = m_CurrentGold + "/?";
+        m_CollectibleText.text = m_CurrentGold + "/51";
 
         m_GoldText.text = m_CurrentGold.ToString();
     }
@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     {
         m_CurrentGold += goldToAdd;
         m_DebuggGoldText.text = "Gold: " + m_CurrentGold;
-        m_CollectibleText.text = m_CurrentGold + "/?";
+        m_CollectibleText.text = m_CurrentGold + "/51";
 
         m_GoldText.text = m_CurrentGold.ToString();
 

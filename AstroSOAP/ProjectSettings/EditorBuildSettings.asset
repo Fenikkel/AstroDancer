@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/AstroDancerVideogame/Scenes/MainMenu.unity
     guid: a05b2b2a91674af40aefdaa42baec78f
   - enabled: 1
-    path: Assets/AstroDancerVideogame/Scenes/Game.unity
-    guid: eb7bfcb685885a8488f0807902ce37b5
+    path: Assets/Pruebas Andres/EscenaFinal/LevelReunion.unity
+    guid: a2728706645005143b4a31dd5a9acc2e
   m_configObjects: {}

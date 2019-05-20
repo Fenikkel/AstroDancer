@@ -1,23 +1,20 @@
 fileFormatVersion: 2
-guid: b4d7827e7f7ce8b469a38f7e2ec51043
+guid: 776180154741ed845a4d03f7c0efe0be
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: Camera
-    100002: Cylinder.007
-    100004: Lamp
-    100006: //RootNode
-    400000: Camera
-    400002: Cylinder.007
-    400004: Lamp
-    400006: //RootNode
-    2000000: Camera
-    2100000: gRASS.007
-    2300000: Cylinder.007
-    3300000: Cylinder.007
-    4300000: Cylinder.007
-    10800000: Lamp
-  externalObjects: {}
+    100000: //RootNode
+    400000: //RootNode
+    2100000: 'Material #3'
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Cylinder003
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 'Material #3'
+    second: {fileID: 2100000, guid: d8bc3758fa8ed1a4498d5005acf8c7e2, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -57,7 +54,7 @@ ModelImporter:
     importCameras: 1
     importLights: 1
     swapUVChannels: 0
-    generateSecondaryUV: 1
+    generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
