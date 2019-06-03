@@ -128,14 +128,14 @@ public class CameraController : MonoBehaviour
 
         m_CameraPivot.transform.rotation = Quaternion.Slerp(m_CameraPivot.transform.rotation, m_TargetAngle, m_SemiRotateSpeed);
 
-        if (m_CameraPivot.transform.rotation == m_TargetAngle)
+        if (QuaternionAbs(m_CameraPivot.transform.rotation)  == QuaternionAbs(m_TargetAngle))
         {
             print("yata");
 
             float mouse = Input.GetAxisRaw("Mouse X");
 
 
-            if (mouse > 0 || Input.GetAxis("LButton") != 0)
+            if (mouse > 0 || Input.GetAxis("RButton") != 0)
             {
 
                 print("Dreta");
@@ -144,7 +144,7 @@ public class CameraController : MonoBehaviour
                 //m_CameraPivot.Rotate(0, -90 , 0); 
                 //m_CameraPivot.rotation = Quaternion.Lerp(desde.rotation, hasta.rotation, Time.time * 0.1f);
             }
-            else if (mouse < 0 || Input.GetAxis("RButton") != 0)
+            else if (mouse < 0 || Input.GetAxis("LButton") != 0)
             {
                 print("Esquerra");
 
@@ -247,4 +247,11 @@ public class CameraController : MonoBehaviour
         }
         transform.LookAt(m_CameraTarget);
     }
+
+    private Quaternion QuaternionAbs(Quaternion q)
+    {
+        return new Quaternion(Mathf.Abs(q.x), Mathf.Abs(q.y), Mathf.Abs(q.z), Mathf.Abs(q.w));
+    }
+
+
 }
